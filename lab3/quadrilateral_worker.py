@@ -9,19 +9,47 @@ class QuadrilateralWorker:
 
         self.type = self._get_type()
 
-    def _check_validity(self):
-        if any(side <= 0 for side in self.sides):
-            raise Exception('Sides should be greater than 0')
+    @staticmethod
+    def _check_format(obj):
+        return {i: o for i, o in enumerate(obj) if not isinstance(o, (float, int))}
 
-        if any(angle <= 0 or angle >= 360 for angle in self.angles):
-            raise Exception('Angles should be greater than 0 and less than 360 degrees')
-        
-        if sum(self.angles) != 360:
-            raise Exception('Invalid angles')
+    def _check_sides_validity(self):
+        side_names = ['ab', 'bc', 'cd', 'ad']
+
+        invalid_sides = self._check_format(self.sides)
+        if invalid_sides:
+            raise ValueError(f'Sides must be in float or integer format '
+                            f'({", ".join(f"{side_names[i]}: {side}" for i, side in invalid_sides.items())})')
+
+        invalid_sides = {i: side for i, side in enumerate(self.sides) if side <= 0}
+        if invalid_sides:
+            raise ValueError('Sides should be greater than 0 '
+                            f'({", ".join(f"{side_names[i]}: {side}" for i, side in invalid_sides.items())})')
 
         for i in range(len(self.sides)):
             if self.sides[i] >= sum(self.sides[:i] + self.sides[i + 1:]):
-                raise Exception('Invalid size lengths')
+                raise ValueError(f'Invalid size length \n'
+                                f'({side_names[i]}) greater than sum of other sides')
+
+    def _check_angles_validity(self):
+        angle_names = ['dab', 'abc', 'bcd', 'cda']
+
+        invalid_angles = self._check_format(self.angles)
+        if invalid_angles:
+            raise ValueError(f'Angles must be in float or integer format '
+                            f'({", ".join(f"{angle_names[i]}: {angle}" for i, angle in invalid_angles.items())})')
+
+        invalid_angles = {i: angle for i, angle in enumerate(self.angles) if (angle <= 0 or angle >= 360)}
+        if invalid_angles:
+            raise ValueError('Angles should be greater than 0 and less than 360 degrees'
+                            f'({", ".join(f"{angle_names[i]}: {angle}" for i, angle in invalid_angles.items())})')
+
+        if sum(self.angles) != 360:
+            raise ValueError('Angles sum must be 360 degrees')
+
+    def _check_validity(self):
+        self._check_sides_validity()
+        self._check_angles_validity()
 
     def _sides_equal(self):
         return all(side == self.sides[0] for side in self.sides)
@@ -42,7 +70,7 @@ class QuadrilateralWorker:
             if self._opposite_sides_equal():
                 return 'Rectangle'
 
-            raise Exception('Quadrilateral with 90 degrees angles should be square or rectangle')
+            raise ValueError('Quadrilateral with 90 degrees angles should be square or rectangle')
 
         if self._opposite_angles_equal():
             if self._sides_equal():
