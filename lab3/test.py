@@ -101,37 +101,54 @@ class TestQuadrilateralWorker(unittest.TestCase):
                          'cda: 364)')
 
     def test_angle_sum_less_360(self):
-        pass
+        with self.assertRaises(ValueError) as context:
+            QuadrilateralWorker(4, 4, 4, 4, 80, 80, 80, 80)
+        self.assertEqual(str(context.exception),
+                         'Angles sum less than 360 (must be 360 degrees)')
 
     def test_angle_sum_greater_360(self):
-        pass
+        with self.assertRaises(ValueError) as context:
+            QuadrilateralWorker(4, 4, 4, 4, 100, 100, 90, 90)
+        self.assertEqual(str(context.exception),
+                         'Angles sum greater than 360 (must be 360 degrees)')
 
     def test_incorrect_side_length_equal(self):
-        pass
+        with self.assertRaises(ValueError) as context:
+            QuadrilateralWorker(4, 1, 2, 1, 90, 90, 90, 90)
+        self.assertEqual(str(context.exception),
+                         'Invalid size length\n'
+                         '(ab) equal than sum of other sides (should be less)')
 
     def test_incorrect_side_length_greater(self):
-        pass
+        with self.assertRaises(ValueError) as context:
+            QuadrilateralWorker(5, 1, 2, 1, 90, 90, 90, 90)
+        self.assertEqual(str(context.exception),
+                         'Invalid size length\n'
+                         '(ab) greater than sum of other sides (should be less)')
 
     def test_right_angles_without_pairwise_equal_sides(self):
-        pass
-
-    def test_quadrilateral_type_square(self):
-        pass
-
-    def test_quadrilateral_type_rectangle(self):
-        pass
-
-    def test_quadrilateral_type_rhombus(self):
-        pass
-
-    def test_quadrilateral_type_parallelogram(self):
-        pass
-
-    def test_quadrilateral_type_trapezoid(self):
-        pass
-
-    def test_quadrilateral_type_kite(self):
-        pass
+        with self.assertRaises(ValueError) as context:
+            QuadrilateralWorker(3, 1, 2, 1, 90, 90, 90, 90)
+        self.assertEqual(str(context.exception),
+                         'Quadrilateral with 90 degrees angles should be square or rectangle')
 
     def test_quadrilateral_type_quadrilateral(self):
-        pass
+        self.assertEqual(QuadrilateralWorker(1, 2, 3, 4, 60, 120, 120, 60).type, 'Quadrilateral')
+
+    def test_quadrilateral_type_rectangle(self):
+        self.assertEqual(QuadrilateralWorker(2, 4, 2, 4, 90, 90, 90, 90).type, 'Rectangle')
+
+    def test_quadrilateral_type_square(self):
+        self.assertEqual(QuadrilateralWorker(2, 2, 2, 2, 90, 90, 90, 90).type, 'Square')
+
+    def test_quadrilateral_type_parallelogram(self):
+        self.assertEqual(QuadrilateralWorker(2, 4, 2, 4, 110, 70, 110, 70).type, 'Parallelogram')
+
+    def test_quadrilateral_type_rhombus(self):
+        self.assertEqual(QuadrilateralWorker(2, 2, 2, 2, 110, 70, 110, 70).type, 'Rhombus')
+
+    def test_quadrilateral_type_trapezoid(self):
+        self.assertEqual(QuadrilateralWorker(1, 2, 1, 1, 60, 120, 120, 60).type, 'Trapezoid')
+
+    def test_quadrilateral_type_kite(self):
+        self.assertEqual(QuadrilateralWorker(1, 1, 2, 2, 60, 120, 120, 60).type, 'Kite')
