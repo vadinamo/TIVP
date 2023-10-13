@@ -56,12 +56,16 @@ class PageCreator:
         subprocess.run(['open', self._file_name], check=True)
 
 
-def task4():
+def task4(auto_open):
     page_creator = PageCreator()
     page_creator.create_fade_table()
     page_creator.save_page('index.html')
-    page_creator.open_page()
+
+    if auto_open:
+        page_creator.open_page()
 
 
 if __name__ == '__main__':
-    task4()
+    task4(True)
+
+# python3 main.py

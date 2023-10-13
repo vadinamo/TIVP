@@ -6,7 +6,7 @@ from main import task4, PageCreator
 
 class TestTask4(unittest.TestCase):
     def test_file_exists(self):
-        task4()
+        task4(False)
 
         file_path = 'index.html'
         path = Path(file_path)

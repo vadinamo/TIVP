@@ -46,7 +46,8 @@ class FileDownloader:  # https://libeldoc.bsuir.by/bitstream/123456789/48834/1/N
         self._file_worker.save_file(filename=filename, save_path=save_path, content=response.content)
 
         if autoopen:
-            self._file_worker.open_file(os.path.join(save_path, filename)) if input('Open downloaded file?\nY/n\n') == 'Y' else ''
+            self._file_worker.open_file(os.path.join(save_path, filename)) if input(
+                'Open downloaded file?\nY/n\n') == 'Y' else ''
 
 
 def task6():
@@ -68,3 +69,5 @@ def task6():
 
 if __name__ == '__main__':
     task6()
+
+# python3 main.py --url https://libeldoc.bsuir.by/bitstream/123456789/48834/1/Navrockii_Osnovi.pdf --folder /Users/vadinamo/Downloads/

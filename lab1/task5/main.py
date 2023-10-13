@@ -49,3 +49,5 @@ def task5():
 
 if __name__ == '__main__':
     task5()
+
+# python3 main.py --extension .png

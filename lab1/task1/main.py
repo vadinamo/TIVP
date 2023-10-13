@@ -9,4 +9,5 @@ def task1():
     print(get_output())
 
 
-task1()
+if __name__ == '__main__':
+    task1()

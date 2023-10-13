@@ -35,3 +35,5 @@ def task3():
 
 if __name__ == '__main__':
     task3()
+
+# python3 main.py --width 10 --height 2.2
