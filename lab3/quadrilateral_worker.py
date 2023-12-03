@@ -60,13 +60,13 @@ class QuadrilateralWorker:
         return all(side == self.sides[0] for side in self.sides)
 
     def _opposite_sides_equal(self):
-        return all(self.sides[i] == self.sides[(i + 2) % 4] for i in range(len(self.sides)))
+        return all(self.sides[i] == self.sides[i + 2] for i in range(2))
 
     def _angles_equal(self):
         return all(angle == self.angles[0] for angle in self.angles)
 
     def _opposite_angles_equal(self):
-        return all(self.angles[i] == self.angles[(i + 2) % 4] for i in range(len(self.angles)))
+        return all(self.angles[i] == self.angles[i + 2] for i in range(2))
 
     def _get_type(self):
         if self._angles_equal():
@@ -84,7 +84,7 @@ class QuadrilateralWorker:
             if self._opposite_sides_equal():
                 return 'Parallelogram'
 
-        if any(self.angles[i] + self.angles[(i + 2) % 4] for i in range(len(self.angles))) and \
+        if any(self.angles[i] + self.angles[i + 2] for i in range(2)) and \
                 (self.sides[0] == self.sides[2] or self.sides[1] == self.sides[3]):
             return 'Trapezoid'
 
